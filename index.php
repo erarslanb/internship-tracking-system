@@ -1,7 +1,7 @@
 <html>
         <div>
             <form action="login.php" method="post">
-                USERNAME:<input type="text" name="name">
+                ID:<input type="text" name="id">
                 PASSWORD:<input type="password" name="pass">
                 <input type="submit" value="Login"> 
             </form>

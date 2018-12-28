@@ -11,7 +11,7 @@
 	
 		#applications td, #applications th {
 		border: 1px solid #ddd;
-		padding: 8px;
+		padding: 4px;
 		}
 		
 		#applications tr:nth-child(even){background-color: #f2f2f2;}
@@ -43,62 +43,75 @@ include_once 'dbaccess.php';
         <div>
         <table id="applications">
             <tr>
-                <th>ID</th>
-                <th>Name</th>
+                <th>Company Name</th>
+                <th>City</th>
                 <th>Quota</th>
             </tr>
 <?php 
-    $available= mysqli_query($db,"SELECT * FROM company C 
-										WHERE C.cid not in (
-											SELECT A.cid from apply as A
-											WHERE A.sid = $sid) AND C.quota <> '0'");
-									
-    $queryResult = mysqli_fetch_array($available) or die(mysqli_error());
-    $size=mysqli_num_rows($available);
+	$applications = mysqli_query($db, "SELECT * FROM makes");
+	 $number=mysqli_num_rows($applications);
+	
+	if($number >0){
+    $available= mysqli_query($db,"SELECT * FROM company C
+ 										WHERE NOT EXISTS (
+											SELECT * FROM student NATURAL JOIN makes NATURAL JOIN application 
+																						 NATURAL JOIN comp_appl NATURAL JOIN company
+											WHERE student_id = '$sid' AND C.company_name = company_name AND C.city = city) 
+										AND available_quota > 0" );
+	}
+	else{
+	$available= mysqli_query($db,"SELECT * FROM company
+ 									WHERE available_quota > 0" );
+	}
+						
+    $size=mysqli_num_rows($available) or die(); 
     $i = 0;
 	
+	$form = 0;
     while ($i < $size) {
-            $cid=mysqli_result($available, $i, "cid");
-            $cname=mysqli_result($available, $i, "cname");
-            $quota=mysqli_result($available, $i, "quota");
+            $city=mysqli_result($available, $i, "city");
+            $company_name=mysqli_result($available, $i, "company_name");
+            $quota=mysqli_result($available, $i, "available_quota");
 			
-            ?><tr> 
-					<td><?php echo "$cid"?></td>
-					<td><?php echo "$cname"?></td>
-					<td><?php echo "$quota"?></td>
-            </tr><?php
+			echo "<tr>";
+            echo "<td>";
+			echo $company_name;
+			echo "</td><td>";
+			echo $city;
+			echo "</td><td>";
+			echo $quota;
+			echo "</td>";
+			
+			$form = $form + 1;
+			
+			echo "<td><form id= \"$form\" method=\"post\" action=\"apply.php\">
+						<input name=\"company_name\" type=\"hidden\" value=\"$company_name\">
+						<input name=\"city\" type=\"hidden\" value=\"$city\">
+						<input name=\"submit\" type=\"submit\" value=\"Apply\">
+						</form></td></tr>";		
             $i = $i + 1;
-    }
-?>
-        </table>
-        </div>
-         <br><br>
-         <div> 
-             <form action="apply.php" method="post">
-                Company ID:  <input type="text" name="cid">
-                <input type="submit" value="Apply"> 
-            </form>
-         </div>
-         <?php
+
+    } 
+		echo "</table></div>";
+
         $sid = $_SESSION['sid'];
-         if (isset($_SESSION['insert']) && isset($_SESSION['cid'])){
+         if (isset($_SESSION['insert']) && isset($_SESSION['company_name'])){
              $temp = $_SESSION['insert'];
-             $coid = $_SESSION['cid'];
-                ?>  <div>
-                    <h3><?php 
+             $cname = $_SESSION['company_name'];
+                echo" <div> <h3>";
                     if ($temp == "true"){
                         $_SESSION['insert'] = "";
-                        echo "Successfully applied to: " ."$coid";?> </h3><?php
+                        echo "Successfully applied to: " ."$cname"."</h3>";
                     } else if ($temp == "false"){
                         $_SESSION['insert']="";
-                        echo "Could not apply to: " ."$coid";?> </h3> <?php
-                    } else {}?>
-                </div> <?php
+                        echo "Could not apply to: " ."$cname"." </h3>";
+                    } else {}
+                echo"</div>"; 
     
          }
 ?>
 		  <div>
-		  <form action="welcome.php" method="post">
+		  <form action="welcomeStudent.php" method="post">
 		  <input type="submit" value="Back">
          </form>
 		 
