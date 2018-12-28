@@ -3,17 +3,18 @@ include_once 'dbaccess.php';
 
     session_start();
     $sid = $_SESSION['sid'];
-    $row =$_GET['row'];
-    $deleteApplication = mysqli_query($db,"DELETE FROM apply WHERE sid = '$sid' AND cid = '$row'");
+    $company_name =$_POST['company_name'];
+	$city = $_POST['city'];
+	$applID = $_POST['applID'];
+	
+    $deleteApplication = mysqli_query($db,"DELETE FROM application WHERE appl_id = '$applID' ");
+	
     if ($deleteApplication){
-		mysqli_query($db,"UPDATE company SET quota = quota+1 WHERE cid = '$row';");
+		mysqli_query($db,"UPDATE company SET available_quota = available_quota+1 
+											WHERE company_name = '$company_name' AND city = '$city';");
         echo("Application successfully canceled.");
+		header("Location: welcomeStudent.php");
     }else {
 		echo ("Something went wrong.");
     }
 ?> 
-<html>
-    <form action="welcome.php" method="post">
-    <input type="submit" value="Back">
-    </form>
-</html> 

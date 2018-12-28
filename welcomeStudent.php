@@ -3,10 +3,17 @@
           <font size="6">Welcome</font>
  
 <?php 
+			include_once 'dbaccess.php';
             session_start();  
-            $username = $_SESSION['username'];
-            $_SESSION['username'] = "$username";
-			echo " <font size=6>$username</font>";
+            $id = $_SESSION['sid'];
+            $_SESSION['sid'] = "$id";
+			
+			$student= mysqli_query($db, "SELECT * FROM student
+																	WHERE student_id = '$id' ");
+																	
+			$name=mysqli_result($student, 0, "student_name");							
+									
+			echo " <font size=6>$name</font>";
 
  ?> 
 	<style>
@@ -50,26 +57,42 @@ include_once 'dbaccess.php';
                         $sid = $_SESSION['sid'];
                         $_SESSION['sid'] = "$sid";
 
-                        $queryLogin= mysqli_query($db, "SELECT * FROM apply NATURAL JOIN company 
-																							NATURAL JOIN student WHERE sid = '$sid' ");
-                        $size=mysqli_num_rows($queryLogin);
+						$companies= mysqli_query($db, "SELECT * FROM student NATURAL JOIN makes NATURAL JOIN application 
+																																		NATURAL JOIN comp_appl NATURAL JOIN company
+																							WHERE student_id = '$sid' ");
+																							
+                        $size=mysqli_num_rows($companies);
 						
-                        if ($size > 0){
-                             $queryResult = mysqli_fetch_array($queryLogin) or die(mysqli_error());
-                        }
                         $_SESSION['size'] = $size;
                         $i = 0;
+						$form = 0;
+						
+						$applID = $_SESSION['applid'];
+						if($size >0){
                         for (; $i < $size; $i++) {
-                                $cid= mysqli_result($queryLogin, $i, "cid");
-                                $cname=mysqli_result($queryLogin, $i, "cname");
-                                $quota=mysqli_result($queryLogin, $i, "quota");
-                                ?><tr>
-										<td><?php echo "$cid"?></td>
-										<td><?php echo "$cname"?></td>
-										<td><?php echo "$quota"?></td>
-										<td><?php $link = '<a href="cancelApplication.php?row=' . "$cid" . "\""; echo("$link".'>Cancel Application</a>');?></th>
-                              </tr><?php
-                        }
+							
+							$city=mysqli_result($companies, $i, "city");
+							$company_name=mysqli_result($companies, $i, "company_name");
+							$quota=mysqli_result($companies, $i, "available_quota");
+							
+                            echo "<tr>";
+							echo "<td>";
+							echo $company_name;
+							echo "</td><td>";
+							echo $city;
+							echo "</td><td>";
+							echo $quota;
+							echo "</td>";
+				
+							$form = $form + 1;
+			
+							echo "<td><form id= \"$form\" method=\"post\" action=\"cancelApplication.php\">
+									<input name=\"company_name\" type=\"hidden\" value=\"$company_name\">
+									<input name=\"city\" type=\"hidden\" value=\"$city\">
+									<input name=\"applID\" type=\"hidden\" value=\"$applID\">
+									<input name=\"submit\" type=\"submit\" value=\"Cancel Application\">
+									</form></td></tr>";		
+                        }}
 ?>
             </table>
         </div>

@@ -3,23 +3,22 @@
 include_once 'dbaccess.php';
     session_start();
 
-    $username='';
+    $id='';
     $password='';
-        $username= $_POST['name'];
+        $sid= $_POST['id'];
         $password= $_POST['pass'];
-        $_SESSION['username'] = $username;
+		$_SESSION['sid'] = $sid;
         $_SESSION['password'] = $password;
-		$_SESSION['sid'] = $password;
-        $queryLoginSt= mysqli_query($db, "SELECT sid
+        $queryLoginSt= mysqli_query($db, "SELECT student_id
 																FROM student 
-																WHERE sname= '$username' AND sid='$password'");
+																WHERE student_id= '$sid' AND password='$password'");
 
 
         $rowNumSt = mysqli_num_rows($queryLoginSt);
 		
 		$queryLoginInst= mysqli_query($db, "SELECT iid
 																FROM instructor 
-																WHERE iname= '$username' AND password='$password'");
+																WHERE employee_id= '$sid' AND password='$password'");
 			
 		$rowNumInst = mysqli_num_rows($queryLoginInst);
 		
