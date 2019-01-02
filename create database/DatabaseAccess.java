@@ -4,11 +4,17 @@ public class DatabaseAccess {
     
     private static Statement statement = null;
     private static ResultSet resultSet = null;
-
+   /* static final String USER = "root";
+    static final String PASS = "q1w2e3r4t5";
+    Connection conn = null;
+    Statement stmt = null;
+    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    static final String DB_URL =
+*/
     public static void main(String[] args) {
         try {
 
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/batuhan_erarslan?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=Turkey","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/project?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=Turkey","root","");
 
             System.out.println("Connected Successfully");
 

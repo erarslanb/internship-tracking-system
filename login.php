@@ -22,6 +22,10 @@ include_once 'dbaccess.php';
 
 		$rowNumInst = mysqli_num_rows($queryLoginInst);
 
+        $queryLoginSec = mysqli_query($db,"SELECT employee_id FROM secretary WHERE employee_id = '$sid' AND password = '$password'");
+
+        $rowNumsec = mysqli_num_rows($queryLoginSec);
+
 
         if($rowNumSt > 0){
             echo "Successfully logged in.";
@@ -29,7 +33,12 @@ include_once 'dbaccess.php';
         } else if($rowNumInst > 0){
             echo "Successfully logged in.";
             header('Location: welcomeInstructor.php');
-		}else{
+		}else if($rowNumsec > 0){
+            echo "Successfully logged in";
+            header('Location: welcomeSecretary.php');
+        }
+
+        else{
 
         ?> <html>
         <div>

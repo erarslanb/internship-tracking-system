@@ -1,7 +1,7 @@
 <?php
 	$username = "root";
-	$password = "root";
-	$database = "batuhan_erarslan";
+	$password = "";
+	$database = "project";
 	$db = mysqli_connect("localhost", $username, $password, $database)
 	or die("Unable to connect to database");
 
