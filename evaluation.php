@@ -4,7 +4,7 @@ include_once 'dbaccess.php';
     session_start();
 
     $_SESSION['report_id'] = $_POST['report_id'];
-    $_SESSION['sid'] = $_POST['sid'];
+    $_SESSION['iid'] = $_POST['id'];
 ?>
 
 <html>

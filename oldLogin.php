@@ -5,26 +5,22 @@ include_once 'dbaccess.php';
 
     $id='';
     $password='';
-        $id= $_POST['id'];
+        $sid= $_POST['id'];
         $password= $_POST['pass'];
-		    $_SESSION['id'] = $id;
+		$_SESSION['sid'] = $sid;
         $_SESSION['password'] = $password;
         $queryLoginSt= mysqli_query($db, "SELECT student_id
 																FROM student
-																WHERE student_id= '$id' AND password='$password'");
+																WHERE student_id= '$sid' AND password='$password'");
 
 
         $rowNumSt = mysqli_num_rows($queryLoginSt);
 
 		$queryLoginInst= mysqli_query($db, "SELECT employee_id
 																FROM instructor
-																WHERE employee_id= '$id' AND password='$password'");
+																WHERE employee_id= '$sid' AND password='$password'");
 
 		$rowNumInst = mysqli_num_rows($queryLoginInst);
-
-        $queryLoginSec = mysqli_query($db,"SELECT employee_id FROM secretary WHERE employee_id = '$id' AND password = '$password'");
-
-        $rowNumsec = mysqli_num_rows($queryLoginSec);
 
 
         if($rowNumSt > 0){
@@ -33,12 +29,7 @@ include_once 'dbaccess.php';
         } else if($rowNumInst > 0){
             echo "Successfully logged in.";
             header('Location: welcomeInstructor.php');
-		}else if($rowNumsec > 0){
-            echo "Successfully logged in";
-            header('Location: welcomeSecretary.php');
-        }
-
-        else{
+		}else{
 
         ?> <html>
         <div>

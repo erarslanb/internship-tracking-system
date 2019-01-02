@@ -3,7 +3,7 @@ include_once 'dbaccess.php';
 
     session_start();
 	$report_id =  $_SESSION['report_id'];
-  $sid = $_SESSION['sid'];
+  $id = $_SESSION['iid'];
 	$grade = $_POST['grade'];
 	$_SESSION['report_id'] = $report_id;
 
