@@ -12,10 +12,22 @@ include_once 'dbaccess.php';
 
         $evaluateReport= mysqli_query($db,"UPDATE summer_training_report SET  grade = '$grade'
 																													WHERE report_id = '$report_id'");
-        if($evaluateReport){
+        if($evaluateReport<50){
             $_SESSION['evaluate'] = "true";
+            mysqli_query($db,"UPDATE evaluates SET eval_status = 'u' where report_id = '$report_id'");
             header("Location: welcomeInstructor.php");
-        } else {
+        } 
+        else if($evaluateReport<70){
+            $_SESSION['evaluate'] = "true";
+            mysqli_query($db,"UPDATE evaluates SET eval_status = 'r' where report_id = '$report_id'");
+            header("Location: welcomeInstructor.php");
+        }
+        else  if($evaluateReport>70){
+            $_SESSION['evaluate'] = "true";
+            mysqli_query($db,"UPDATE evaluates SET eval_status = 's' where report_id = '$report_id'");
+            header("Location: welcomeInstructor.php");
+        }
+        else {
             $_SESSION['evaluate'] = "false";
             header("Location: welcomeInstructor.php");
         }

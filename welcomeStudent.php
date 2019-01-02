@@ -12,7 +12,7 @@
 																	WHERE student_id = '$id' ");
 
 			$name=mysqli_result($student, 0, "student_name");
-
+      $stid = mysqli_result($student,0,"student_id");
 			echo " <font size=6>$name</font>";
 
  ?>
@@ -103,6 +103,18 @@ include_once 'dbaccess.php';
   									<input name=\"applID\" type=\"hidden\" value=\"$applID\">
   									<input name=\"submit\" type=\"submit\" value=\"Cancel Application\">
   									</form></td></tr>";
+
+                $form = $form + 1;
+
+                echo "<td><form id= \"$form\" method=\"post\" action=\"addReport.php\">
+                    <input name=\"company_name\" type=\"hidden\" value=\"$company_name\">
+                    <input name=\"city\" type=\"hidden\" value=\"$city\">
+                    <input name=\"applID\" type=\"hidden\" value=\"$applID\">
+                    <input name=\"submit\" type=\"submit\" value=\"Add Report\">
+                    </form></td></tr>";
+
+
+
                   }}
 ?>
             </table>
@@ -110,6 +122,7 @@ include_once 'dbaccess.php';
         <br><br>
         <div>
 			 <p>&nbsp;</p>
+           <?php echo "<a href=\"uploads/"."$stid".".pdf\"> download </a>"; ?>
            <?php $link = '<a href="application.php'. "\""; echo("$link".'>Apply For New Company</a>');?>
         </div>
         <div>

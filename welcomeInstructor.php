@@ -93,7 +93,12 @@ include_once 'dbaccess.php';
   									<input name=\"report_id\" type=\"hidden\" value=\"$report_id\">
   									<input name=\"sid\" type=\"hidden\" value=\"$sid\">
   									<input name=\"submit\" type=\"submit\" value=\"Evaluate\">
-  									</form></td></tr>";
+  									</form></td>";
+
+                    $form = $form + 1;
+
+                    echo "<td><a href=\"uploads/"."$sid".".pdf\"> download </a></td></tr>";
+
                   }
 ?>
         </table>
