@@ -62,8 +62,10 @@
       <div>
         <ul>
           <li><a href="welcomeInstructor.php">Reports</a></li>
-          <li><a href="Companies.php">Companies</a></li>
+          <li><a href="companies.php">Companies</a></li>
+          <li><a href="students.php">Students</a></li>
           <li  style="float:right"><a href="index.php">Log Out</a></li>
+          <input type="text" placeholder="Search..">
         </ul>
       </div>
       <div>

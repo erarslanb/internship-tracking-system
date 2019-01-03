@@ -66,6 +66,7 @@
     <div>
       <ul>
         <li><a href="companies.php">Companies</a></li>
+        <li><a href="students.php">Students</a></li>
         <li><a href="decideApplication.php">Applications</a></li>
         <li  style="float:right"><a href="index.php">Log Out</a></li>
       </ul>
