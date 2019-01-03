@@ -2,7 +2,7 @@
 
 include_once 'dbaccess.php';
     session_start();
-
+      unset($_SESSION['sid'], $_SESSION['iid'], $_SESSION['secid']);
     $id='';
     $password='';
         $id= $_POST['id'];

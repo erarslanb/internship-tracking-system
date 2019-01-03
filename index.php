@@ -35,6 +35,7 @@
       <li  style="float:right"><a href="index.php">Log In</a></li>
     </ul>
   </div>
+  <?php   session_start(); unset($_SESSION['sid'], $_SESSION['iid'], $_SESSION['secid']); ?>
   <br></br>
   <div>
       <form action="login.php" method="post">
